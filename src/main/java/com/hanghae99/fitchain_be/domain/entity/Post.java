@@ -20,10 +20,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 500)
-    @Size(min = 1, message = "제목을 입력해주세요.")
     private String title;
     @Lob
-    @Size(min = 1, message = "내용을 입력해주세요.")
     private String description;
     @Column
     private int likecnt;
