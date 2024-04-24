@@ -57,17 +57,17 @@ public class JwtUtil {
 
     // 토큰 생성
 
-    public TokenDto createAllToken(String nickName) {
-        return new TokenDto(createToken(nickName, "Access"), createToken(nickName, "Refresh"));
+    public TokenDto createAllToken(String userId) {
+        return new TokenDto(createToken(userId, "Access"), createToken(userId, "Refresh"));
     }
 
 
-    public String createToken(String nickName, String type) {
+    public String createToken(String userId, String type) {
         Date date = new Date();
         long time = type.equals("Access") ? ACCESS_TIME : REFRESH_TIME;
 
         return Jwts.builder()
-                        .setSubject(nickName)
+                        .setSubject(userId)
                         .setExpiration(new Date(date.getTime() + time))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
@@ -97,8 +97,7 @@ public class JwtUtil {
         if(!validateToken(token)) return false;
 
         // DB에 저장한 토큰 비교
-        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUserEmail(getUserInfoFromToken(token));
-
+        Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUserId(getUserInfoFromToken(token));
         return refreshToken.isPresent() && token.equals(refreshToken.get().getRefreshToken());
     }
 
@@ -109,8 +108,8 @@ public class JwtUtil {
     }
 
     @Transactional
-    public Authentication createAuthentication(String email) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+    public Authentication createAuthentication(String userId) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 

@@ -26,6 +26,6 @@ public class UserRequestDto {
     private String phoneNumber;
     @Size(min = 1, message = "이메일을 입력해주세요.")
     private String email;
-    @Size(min = 1, message = "생일을 입력해주세요.")
+    // @Size(min = 1, message = "생일을 입력해주세요.")
     private Date birth;
 }
