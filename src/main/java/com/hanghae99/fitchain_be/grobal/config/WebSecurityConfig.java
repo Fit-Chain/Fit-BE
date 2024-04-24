@@ -1,4 +1,4 @@
-package com.hanghae99.fitchain_be.grobal.security;
+package com.hanghae99.fitchain_be.grobal.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
